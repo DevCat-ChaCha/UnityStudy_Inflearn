@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Chapter1_Test
 {
+    // 메소드 호출 (F11) => 영화 "Inception"
+    // 현실 -> 1차 꿈 -> 2차 꿈 -> 3차 꿈 -> 깬다? -> 2차 꿈 -> 1차 꿈 -> 현실
+    // Depth별로 나뉨
+    
+    // 호출 스택 = 지금까지 진행한 경로를 직접 볼 수 있게 함
+
+    // 주요기능 1. 조건 걸기 2. 실행 순서 바꾸기
+
     class Program
     {
         public enum VALUE
