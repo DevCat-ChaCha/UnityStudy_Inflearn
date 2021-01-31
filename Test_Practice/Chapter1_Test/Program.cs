@@ -52,7 +52,7 @@ namespace Chapter1_Test
                     Chapter1_Test.Program.PrintStars();
                     break;
                 case VALUE.FACTORIAL:
-                    Chapter1_Test.Program.Factorial();
+                    Chapter1_Test.Program.Factorial_Simple();
                     break;
 
                 case VALUE.EXIT:
@@ -116,6 +116,24 @@ namespace Chapter1_Test
             }
 
             Console.WriteLine(result);
+        }
+
+        static int Function_Factorial(int n)
+        {
+            if (n <= 1)
+                return 1;
+
+            return n * Function_Factorial(n - 1);
+        }
+
+        static void Factorial_Simple()
+        {
+            Console.WriteLine("계산하고자 하는 팩토리얼 넘버를 입력하세요 !");
+            var value = Console.ReadLine();
+            int factorial;
+            int.TryParse(value, out factorial);
+
+            Console.WriteLine(Function_Factorial(factorial));
         }
 
     }
