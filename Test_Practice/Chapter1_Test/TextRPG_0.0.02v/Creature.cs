@@ -24,7 +24,7 @@ namespace TextRPG_0._0._02v
             this.creatureType = creatureType;
         }
 
-        public void SetInfo(int attack, int hp, double speed = 1.0)
+        public void SetInfo(int hp, int attack, double speed = 1.0)
         {
             this.hp = hp;
             this.attack = attack;

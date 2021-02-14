@@ -22,27 +22,27 @@ namespace TextRPG_0._0._02v
         }
 
         public MONSTERTYPE GetMonsterType() { return this.monsterType; }
+    }
 
-        class Slime : Monster
+    class Slime : Monster
+    {
+        public Slime() : base(MONSTERTYPE.SLIME)
         {
-            public Slime() : base(MONSTERTYPE.SLIME)
-            {
-                SetInfo(10, 10);
-            }
+            SetInfo(10, 10);
         }
-        class Orc : Monster
+    }
+    class Orc : Monster
+    {
+        public Orc() : base(MONSTERTYPE.ORC)
         {
-            public Orc() : base(MONSTERTYPE.ORC)
-            {
-                SetInfo(20, 25);
-            }
+            SetInfo(20, 25);
         }
-        class Skeleton : Monster
+    }
+    class Skeleton : Monster
+    {
+        public Skeleton() : base(MONSTERTYPE.SKELETON)
         {
-            public Skeleton() : base(MONSTERTYPE.SKELETON)
-            {
-                SetInfo(15, 35);
-            }
+            SetInfo(15, 35);
         }
     }
 }

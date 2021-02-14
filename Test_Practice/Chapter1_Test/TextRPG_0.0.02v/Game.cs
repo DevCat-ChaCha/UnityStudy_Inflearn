@@ -18,6 +18,8 @@ namespace TextRPG_0._0._02v
         // 초기값 설정
         private GAMEMODE gameMode = GAMEMODE.LOBBY;
         private Player player = null;
+        private Monster monster = null;
+        private Random rand = new Random();
 
         public void Process()
         {
@@ -30,6 +32,7 @@ namespace TextRPG_0._0._02v
                     ProcessTown();
                     break;
                 case GAMEMODE.FIELD:
+                    ProcessField();
                     break;
                 default:
                     break;
@@ -98,7 +101,110 @@ namespace TextRPG_0._0._02v
         private void ProcessField()
         {
             Console.WriteLine("필드에 도달했습니다!");
-            Console.WriteLine();
+            // 랜덤으로 몬스터를 만나게 함.
+            // 몬스터를 만나면 선택지 두가지 출력
+            CreateMonster();
+
+            Console.WriteLine("[1] 전투하기 [2] 일정확률로 필드에서 도망치기");
+            string input = Console.ReadLine();
+            int number = 0;
+            int.TryParse(input, out number);
+
+            switch(number)
+            {
+                case 1:
+                    Fight();
+                    break;
+                case 2:
+                    {
+                        if (TryEscape() == true)
+                        {
+                            Console.WriteLine("도망치는 데 성공했습니다^_________^!!");
+                            gameMode = GAMEMODE.TOWN;
+                        }
+                        else
+                            Fight();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Fight()
+        {
+            Console.WriteLine("전투가 시작되었습니다!!");
+            var monsterHp = monster.GetHp();
+            var playerHp = player.GetHp();
+
+            while (true)
+            {
+                // 플레이어 턴
+                monsterHp -= player.GetAttack();
+                Console.WriteLine("플레이어의 공격력 : " + player.GetAttack());
+                Console.WriteLine("몬스터의 남은 체력 : " + monsterHp);
+                if (monsterHp <= 0)
+                {
+                    Console.WriteLine("승리!");
+                    ReturnTown();
+                    break;
+                }
+
+                // 몬스터 턴
+                playerHp -= monster.GetAttack();
+                Console.WriteLine("몬스터의 공격력 : " + monster.GetAttack());
+                Console.WriteLine("플레이어의 남은 체력 : " + playerHp);
+                if (playerHp <= 0)
+                {
+                    Console.WriteLine("플레이어 사망!");
+                    ReturnTown();
+                    break;
+                }
+            }
+        }
+
+        private void ReturnTown()
+        {
+            Console.WriteLine("마을로 돌아갑니다..");
+            gameMode = GAMEMODE.TOWN;
+        }
+
+        private bool TryEscape()
+        {
+            int value = rand.Next(0, 101);
+            if(value <= 33)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void CreateMonster()
+        {
+            int value = rand.Next(0, 3);
+            switch(value)
+            {
+                case 0:
+                    {
+                        monster = new Slime();
+                        Console.WriteLine("슬라임 출현!");
+                    }
+                    break;
+                case 1:
+                    {
+                        monster = new Skeleton();
+                        Console.WriteLine("스켈레톤 출현!");
+                    }
+                    break;
+                case 2:
+                    {
+                        monster = new Orc();
+                        Console.WriteLine("오크 출현!");
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
