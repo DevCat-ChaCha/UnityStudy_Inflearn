@@ -28,6 +28,7 @@ namespace TextRPG_0._0._02v
     {
         public Slime() : base(MONSTERTYPE.SLIME)
         {
+            Console.WriteLine("슬라임 출현!");
             SetInfo(10, 10);
         }
     }
@@ -35,6 +36,7 @@ namespace TextRPG_0._0._02v
     {
         public Orc() : base(MONSTERTYPE.ORC)
         {
+            Console.WriteLine("오크 출현!");
             SetInfo(20, 25);
         }
     }
@@ -42,6 +44,7 @@ namespace TextRPG_0._0._02v
     {
         public Skeleton() : base(MONSTERTYPE.SKELETON)
         {
+            Console.WriteLine("스켈레톤 출현!");
             SetInfo(15, 35);
         }
     }

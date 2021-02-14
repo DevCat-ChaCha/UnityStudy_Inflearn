@@ -34,6 +34,8 @@ namespace TextRPG_0._0._02v
         public CREATURE_TYPE GetCreatureType() { return this.creatureType; }
         public int GetHp()  { return this.hp; }
         public int GetAttack()  { return this.attack; }
+
+        public double GetAttackSpeed() { return this.speed; }
         public bool IsDead() 
         {
             return this.hp <= 0; 

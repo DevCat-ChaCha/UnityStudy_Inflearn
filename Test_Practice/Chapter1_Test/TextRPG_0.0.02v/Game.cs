@@ -113,7 +113,7 @@ namespace TextRPG_0._0._02v
             switch(number)
             {
                 case 1:
-                    Fight();
+                    ProcessFight();
                     break;
                 case 2:
                     {
@@ -123,7 +123,7 @@ namespace TextRPG_0._0._02v
                             gameMode = GAMEMODE.TOWN;
                         }
                         else
-                            Fight();
+                            ProcessFight();
                     }
                     break;
                 default:
@@ -131,34 +131,45 @@ namespace TextRPG_0._0._02v
             }
         }
 
-        private void Fight()
+        private void ProcessFight()
         {
             Console.WriteLine("전투가 시작되었습니다!!");
             var monsterHp = monster.GetHp();
             var playerHp = player.GetHp();
 
+            DateTime player_timeValue = DateTime.Now;
+            DateTime monster_timeValue = DateTime.Now;
+
             while (true)
             {
-                // 플레이어 턴
-                monsterHp -= player.GetAttack();
-                Console.WriteLine("플레이어의 공격력 : " + player.GetAttack());
-                Console.WriteLine("몬스터의 남은 체력 : " + monsterHp);
-                if (monsterHp <= 0)
+                if (DateTime.Now > player_timeValue.AddSeconds(1/player.GetAttackSpeed()))
                 {
-                    Console.WriteLine("승리!");
-                    ReturnTown();
-                    break;
+                    // 플레이어 턴
+                    monster.OnDamaged(player.GetAttack());
+                    Console.WriteLine("플레이어의 공격력 : " + player.GetAttack());
+                    Console.WriteLine("몬스터의 남은 체력 : " + monster.GetHp());
+                    if (monster.IsDead() == true)
+                    {
+                        Console.WriteLine("승리!");
+                        ReturnTown();
+                        break;
+                    }
+                    player_timeValue= DateTime.Now;
                 }
 
-                // 몬스터 턴
-                playerHp -= monster.GetAttack();
-                Console.WriteLine("몬스터의 공격력 : " + monster.GetAttack());
-                Console.WriteLine("플레이어의 남은 체력 : " + playerHp);
-                if (playerHp <= 0)
+                if (DateTime.Now > monster_timeValue.AddSeconds(1 / monster.GetAttackSpeed()))
                 {
-                    Console.WriteLine("플레이어 사망!");
-                    ReturnTown();
-                    break;
+                    // 몬스터 턴
+                    playerHp -= monster.GetAttack();
+                    Console.WriteLine("몬스터의 공격력 : " + monster.GetAttack());
+                    Console.WriteLine("플레이어의 남은 체력 : " + playerHp);
+                    if (playerHp <= 0)
+                    {
+                        Console.WriteLine("플레이어 사망!");
+                        ReturnTown();
+                        break;
+                    }
+                    monster_timeValue = DateTime.Now;
                 }
             }
         }
@@ -187,19 +198,16 @@ namespace TextRPG_0._0._02v
                 case 0:
                     {
                         monster = new Slime();
-                        Console.WriteLine("슬라임 출현!");
                     }
                     break;
                 case 1:
                     {
                         monster = new Skeleton();
-                        Console.WriteLine("스켈레톤 출현!");
                     }
                     break;
                 case 2:
                     {
                         monster = new Orc();
-                        Console.WriteLine("오크 출현!");
                     }
                     break;
                 default:
